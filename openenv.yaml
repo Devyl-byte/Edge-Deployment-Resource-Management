@@ -1,0 +1,14 @@
+version: "1.0"
+environment:
+  name: "edge-resource-manager"
+  description: "Simulates managing system resources (RAM, battery, latency) on an edge device."
+tasks:
+  - name: "task_stable_edge"
+    difficulty: "easy"
+    description: "Maintain RAM usage at stable levels under normal conditions."
+  - name: "task_fluctuating_memory"
+    difficulty: "medium"
+    description: "Handle sudden memory spikes without causing excessive system latency."
+  - name: "task_low_battery_spike"
+    difficulty: "hard"
+    description: "Survive critical memory limits while the battery is nearly depleted."
