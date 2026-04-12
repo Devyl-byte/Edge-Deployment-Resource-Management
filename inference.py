@@ -6,14 +6,13 @@ from models import EdgeAction
 
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME", "edge-deployment-env")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.1-8B-Instruct")
+MODEL_NAME = os.getenv("MODEL_NAME", "llama3.1")
 HF_TOKEN = os.getenv("HF_TOKEN")
 
 client = OpenAI(
-    base_url=API_BASE_URL,
+    base_url=API_BASE_URL, 
     api_key=HF_TOKEN
 )
-
 
 def run_inference():
     env = EdgeEnv()
@@ -35,7 +34,7 @@ def run_inference():
            
             while not done:
                
-                print(f"[DEBUG] Observation: {obs.model_dump_json()}")
+                #print(f"[DEBUG] Observation: {obs.model_dump_json()}")
                
                 prompt = f"""
                 System Status: RAM: {obs.ram_usage:.1f}%, Battery: {obs.battery_level:.1f}%
@@ -69,7 +68,7 @@ def run_inference():
                     )
                 except Exception as e:
                     error_msg = f'"{str(e)}"'
-                    print(f"[DEBUG] ⚠️ ERROR: {e}")
+                    #print(f"[DEBUG] ⚠️ ERROR: {e}")
                     action = EdgeAction(kill_process=False, throttle_cpu=False, route_to_cloud=False)
                
                 obs, reward, done, info = env.step(action)
@@ -96,7 +95,7 @@ def run_inference():
             success_str = "true" if final_average_score > 0.0 else "false"
             rewards_str = ",".join(f"{r:.2f}" for r in rewards_list)
            
-            print(f"[END] success={success_str} steps={step_count} score={final_average_score:.2f} rewards={rewards_str}", flush=True)
+            print(f"[END] success={success_str} steps={step_count} rewards={rewards_str}", flush=True)
 
 
 
