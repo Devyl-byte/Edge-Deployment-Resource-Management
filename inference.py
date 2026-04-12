@@ -10,9 +10,10 @@ MODEL_NAME = os.getenv("MODEL_NAME", "llama3.1")
 HF_TOKEN = os.getenv("HF_TOKEN")
 
 client = OpenAI(
-    base_url=API_BASE_URL, 
+    base_url=API_BASE_URL,
     api_key=HF_TOKEN
 )
+
 
 def run_inference():
     env = EdgeEnv()
@@ -43,6 +44,8 @@ def run_inference():
                 1. If RAM is > 80.0, "kill_process" must be true.
                 2. If Battery is < 40.0, "throttle_cpu" must be true.
                 3. Otherwise, set everything to false.
+
+
                 Respond ONLY with a raw JSON object containing EXACTLY these three boolean keys. No markdown, no explanation.
                 Example: {{"kill_process": false, "throttle_cpu": false, "route_to_cloud": false}}
                 """
@@ -95,7 +98,7 @@ def run_inference():
             success_str = "true" if final_average_score > 0.0 else "false"
             rewards_str = ",".join(f"{r:.2f}" for r in rewards_list)
            
-            print(f"[END] success={success_str} steps={step_count} rewards={rewards_str}", flush=True)
+            print(f"[END] success={success_str} steps={step_count} score={final_average_score:.2f} rewards={rewards_str}", flush=True)
 
 
 
